@@ -3,13 +3,13 @@ import cors from 'cors';
 import helmet from 'helmet';
 import mongoose from 'mongoose';
 
-import authRoutes from '../src/modules/auth/auth.routes.js';
-import projectRoutes from '../src/modules/projects/projects.routes.js';
-import workspaceRoutes, { projectWorkspaceRoutes } from '../src/modules/workspaces/workspaces.routes.js';
-import collaboratorRoutes from '../src/modules/collaborators/collaborators.routes.js';
-import jobRoutes from '../src/modules/jobs/jobs.routes.js';
+import authRoutes from '../src/modules/auth/auth.routes';
+import projectRoutes from '../src/modules/projects/projects.routes';
+import workspaceRoutes, { projectWorkspaceRoutes } from '../src/modules/workspaces/workspaces.routes';
+import collaboratorRoutes from '../src/modules/collaborators/collaborators.routes';
+import jobRoutes from '../src/modules/jobs/jobs.routes';
 
-import { errorHandler, notFoundHandler } from '../src/middleware/errorHandler.js';
+import { errorHandler, notFoundHandler } from '../src/middleware/errorHandler';
 
 const app: Application = express();
 
