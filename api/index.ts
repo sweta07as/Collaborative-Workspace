@@ -3,13 +3,30 @@ import cors from 'cors';
 import helmet from 'helmet';
 import mongoose from 'mongoose';
 
-import authRoutes from '../src/modules/auth/auth.routes';
-import projectRoutes from '../src/modules/projects/projects.routes';
-import workspaceRoutes, { projectWorkspaceRoutes } from '../src/modules/workspaces/workspaces.routes';
-import collaboratorRoutes from '../src/modules/collaborators/collaborators.routes';
-import jobRoutes from '../src/modules/jobs/jobs.routes';
+let authRoutes: any;
+let projectRoutes: any;
+let workspaceRoutes: any;
+let projectWorkspaceRoutes: any;
+let collaboratorRoutes: any;
+let jobRoutes: any;
+let errorHandler: any;
+let notFoundHandler: any;
 
-import { errorHandler, notFoundHandler } from '../src/middleware/errorHandler';
+try {
+  authRoutes = require('../src/modules/auth/auth.routes').default;
+  projectRoutes = require('../src/modules/projects/projects.routes').default;
+  const workspaceModule = require('../src/modules/workspaces/workspaces.routes');
+  workspaceRoutes = workspaceModule.default;
+  projectWorkspaceRoutes = workspaceModule.projectWorkspaceRoutes;
+  collaboratorRoutes = require('../src/modules/collaborators/collaborators.routes').default;
+  jobRoutes = require('../src/modules/jobs/jobs.routes').default;
+  const errorModule = require('../src/middleware/errorHandler');
+  errorHandler = errorModule.errorHandler;
+  notFoundHandler = errorModule.notFoundHandler;
+  console.log('All modules loaded successfully');
+} catch (err) {
+  console.error('Module loading error:', err);
+}
 
 const app: Application = express();
 
@@ -41,7 +58,17 @@ app.get('/api/health', (_req: Request, res: Response) => {
   res.json({
     status: 'ok',
     timestamp: new Date().toISOString(),
-    platform: 'vercel'
+    platform: 'vercel',
+    routesLoaded: !!authRoutes
+  });
+});
+
+// Debug route
+app.get('/api/debug', (_req: Request, res: Response) => {
+  res.json({
+    authRoutes: typeof authRoutes,
+    projectRoutes: typeof projectRoutes,
+    workspaceRoutes: typeof workspaceRoutes
   });
 });
 
