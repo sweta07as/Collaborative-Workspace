@@ -30,7 +30,6 @@ const refreshTokenSchema = new Schema<IRefreshToken>(
   }
 );
 
-refreshTokenSchema.index({ token: 1 });
 refreshTokenSchema.index({ userId: 1 });
 refreshTokenSchema.index({ expiresAt: 1 });
 

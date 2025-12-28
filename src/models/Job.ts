@@ -78,6 +78,5 @@ const jobSchema = new Schema<IJob>(
 jobSchema.index({ status: 1, createdAt: 1 });
 jobSchema.index({ workspaceId: 1 });
 jobSchema.index({ createdBy: 1 });
-jobSchema.index({ idempotencyKey: 1 });
 
 export const Job = mongoose.model<IJob>('Job', jobSchema);
